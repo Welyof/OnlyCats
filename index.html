@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="sk">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>OnlyCats</title>
+
+	<style>
+		:root {
+			--bg: #05050a;
+			--card: rgba(12, 12, 16, 0.74);
+			--border: rgba(255, 255, 255, 0.10);
+			--muted: rgba(255, 255, 255, 0.70);
+			--red: 255, 0, 64;
+		}
+
+		* { box-sizing: border-box; }
+
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+
+		body {
+			overflow: hidden;
+			color: #fff;
+			font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 22px;
+			background:
+				radial-gradient(1000px 700px at 50% -5%, rgba(var(--red), 0.22), transparent 60%),
+				radial-gradient(1000px 700px at 50% 105%, rgba(var(--red), 0.14), transparent 60%),
+				radial-gradient(700px 420px at 16% 22%, rgba(var(--red), 0.10), transparent 62%),
+				radial-gradient(700px 420px at 84% 78%, rgba(var(--red), 0.08), transparent 62%),
+				var(--bg);
+		}
+
+		body::before {
+			content: "";
+			position: fixed;
+			inset: 0;
+			pointer-events: none;
+			opacity: 0.075;
+			mix-blend-mode: overlay;
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+			background-size: 180px 180px;
+		}
+
+		.wrap {
+			width: min(560px, 100%);
+		}
+
+		.brand {
+			text-align: center;
+			margin: 0 0 18px;
+			font-weight: 950;
+			letter-spacing: -0.045em;
+			font-size: clamp(56px, 10vw, 92px);
+			text-shadow:
+				0 16px 70px rgba(0, 0, 0, 0.65),
+				0 0 28px rgba(var(--red), 0.22);
+			transform-origin: center;
+			animation: pulse 2.8s ease-in-out infinite;
+		}
+
+		@keyframes pulse {
+			0%, 100% { transform: scale(0.985); opacity: 0.92; }
+			50% { transform: scale(1.03); opacity: 1; }
+		}
+
+		.card {
+			border-radius: 18px;
+			border: 1px solid var(--border);
+			background: var(--card);
+			backdrop-filter: blur(14px);
+			-webkit-backdrop-filter: blur(14px);
+			box-shadow: 0 30px 120px rgba(0, 0, 0, 0.62);
+			padding: 18px;
+		}
+
+		.video {
+			position: relative;
+			border-radius: 14px;
+			overflow: hidden;
+			background: #000;
+			border: 1px solid var(--border);
+			aspect-ratio: 16 / 9;
+		}
+
+		.video::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			pointer-events: none;
+			background:
+				radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(0, 0, 0, 0.45) 100%),
+				linear-gradient(to top, rgba(0, 0, 0, 0.35), transparent 55%);
+		}
+
+		.video img {
+			width: 100%;
+			height: 100%;
+			display: block;
+			object-fit: cover;
+			object-position: center;
+		}
+
+		.tag {
+			position: absolute;
+			padding: 6px 10px;
+			font-size: 12px;
+			font-weight: 900;
+			border-radius: 10px;
+			letter-spacing: 0.05em;
+			user-select: none;
+			background: rgba(0, 0, 0, 0.55);
+			border: 1px solid rgba(255, 255, 255, 0.12);
+			z-index: 1;
+		}
+
+		.tag.quality {
+			top: 10px;
+			right: 10px;
+			background: rgba(var(--red), 0.92);
+			border-color: rgba(var(--red), 0.98);
+			box-shadow:
+				0 10px 30px rgba(var(--red), 0.22),
+				0 0 18px rgba(var(--red), 0.28);
+		}
+
+		.tag.time {
+			bottom: 10px;
+			right: 10px;
+		}
+
+		.meta {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			padding: 12px 4px 0;
+			color: rgba(255, 255, 255, 0.82);
+			font-size: 14px;
+		}
+
+		.author {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-weight: 700;
+		}
+
+		.verified {
+			width: 18px;
+			height: 18px;
+			display: inline-flex;
+			filter: drop-shadow(0 0 10px rgba(var(--red), 0.35));
+		}
+
+		.views {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-variant-numeric: tabular-nums;
+			color: rgba(255, 255, 255, 0.78);
+		}
+
+		.icon {
+			width: 16px;
+			height: 16px;
+			opacity: 0.9;
+		}
+
+		.icon svg {
+			width: 16px;
+			height: 16px;
+			display: block;
+		}
+
+		.h1 {
+			margin: 14px 0 6px;
+			font-size: clamp(22px, 3.8vw, 30px);
+			font-weight: 900;
+			letter-spacing: -0.02em;
+		}
+
+		.sub {
+			margin: 0;
+			color: var(--muted);
+			font-size: 15px;
+		}
+
+		@media (max-width: 520px) {
+			.wrap { width: 100%; }
+			.card { padding: 16px; }
+			.video { aspect-ratio: auto; }
+			.video img { height: auto; object-fit: contain; }
+		}
+
+		@media (min-width: 900px) {
+			.wrap { width: min(520px, 100%); }
+			.card { padding: 20px; }
+		}
+
+		@media (max-height: 760px) {
+			.brand { font-size: clamp(44px, 8vw, 72px); }
+		}
+
+		@media (hover: hover) {
+			.video { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+			.video:hover {
+				transform: translateY(-2px);
+				box-shadow:
+					0 18px 60px rgba(0, 0, 0, 0.45),
+					0 0 22px rgba(var(--red), 0.14);
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrap">
+		<div class="brand">OnlyCats</div>
+
+		<div class="card">
+			<div class="video">
+				<img id="thumb" src="cat1.gif" alt="video thumbnail" />
+				<div class="tag quality" id="quality">4K</div>
+				<div class="tag time">4:20</div>
+			</div>
+
+			<div class="meta">
+				<div class="author">
+					<span>Welyof</span>
+					<span class="verified" title="Verified" aria-hidden="true">
+						<svg viewBox="0 0 24 24" fill="none">
+							<circle cx="12" cy="12" r="10" fill="rgb(var(--red))" />
+							<path d="M7.2 12.4l2.7 2.7L16.9 8.1" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+						</svg>
+					</span>
+				</div>
+
+				<div class="views">
+					<span class="icon" aria-hidden="true">
+						<svg viewBox="0 0 24 24" fill="none">
+							<path d="M2.5 12s3.5-7 9.5-7 9.5 7 9.5 7-3.5 7-9.5 7S2.5 12 2.5 12Z" stroke="rgba(255,255,255,0.85)" stroke-width="1.8" />
+							<circle cx="12" cy="12" r="3.2" stroke="rgba(255,255,255,0.85)" stroke-width="1.8" />
+						</svg>
+					</span>
+					<span id="views">0</span>
+				</div>
+			</div>
+
+			<div class="h1" id="tTitle">Bro… vážne?</div>
+			<p class="sub" id="tSub">Čo si čakal, že tu nájdeš?</p>
+		</div>
+	</div>
+
+	<script>
+		const gifs = ["cat1.gif", "cat2.gif", "cat3.gif", "cat4.gif", "cat5.gif"];
+		document.getElementById("thumb").src = gifs[(Math.random() * gifs.length) | 0];
+
+		const qualityEl = document.getElementById("quality");
+		qualityEl.textContent = (Math.max(screen.width, screen.height) >= 900) ? "4K" : "HD";
+
+		const nav = (navigator.language || "").toLowerCase();
+		const useSk = nav.startsWith("sk") || nav.startsWith("cs");
+
+		document.getElementById("tTitle").textContent = useSk ? "Bro… vážne?" : "Bro… really?";
+		document.getElementById("tSub").textContent = useSk ? "Čo si čakal, že tu nájdeš?" : "What did you expect to find here?";
+		document.documentElement.lang = useSk ? (nav.startsWith("cs") ? "cs" : "sk") : "en";
+
+		const viewsEl = document.getElementById("views");
+		let v = ((Math.random() * 9000) | 0) + 1400;
+
+		const tick = () => {
+			v += (Math.random() * 4) | 0;
+			viewsEl.textContent = v.toLocaleString(useSk ? "sk-SK" : "en-US");
+		};
+
+		tick();
+		setInterval(tick, 1800);
+	</script>
+</body>
+</html>
