@@ -226,7 +226,7 @@
 
 		<div class="card">
 			<div class="video">
-				<img id="thumb" src="cat1.gif" alt="video thumbnail" />
+				<img id="thumb" src="images/cat1.gif" alt="video thumbnail" />
 				<div class="tag quality" id="quality">4K</div>
 				<div class="tag time">4:20</div>
 			</div>
@@ -259,7 +259,13 @@
 	</div>
 
 	<script>
-		const gifs = ["cat1.gif", "cat2.gif", "cat3.gif", "cat4.gif", "cat5.gif"];
+		const gifs = [
+			"images/cat1.gif",
+			"images/cat2.gif",
+			"images/cat3.gif",
+			"images/cat4.gif",
+			"images/cat5.gif"
+		];
 		document.getElementById("thumb").src = gifs[(Math.random() * gifs.length) | 0];
 
 		const qualityEl = document.getElementById("quality");
